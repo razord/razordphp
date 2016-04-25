@@ -4,21 +4,6 @@
 
 A framework for developer to develop a restful php app
 
-
-## 启动
-
-无全局验证
-
-```php
-(new Boostrap)->start();
-```
-
-全局验证
-
-```php
-(new Boostrap)->start(true);
-```
-
 ## 路由
 
 Razord采用注释来规定路由
@@ -45,6 +30,6 @@ class api
 
 将会输出`"Hello World"`。
 
-#### More
+#### 文档
 
-更详细的文档请稍后。
+[文档](https://github.com/jas0ncn/razordphp/wiki/%E4%BB%8B%E7%BB%8D)
