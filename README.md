@@ -10,17 +10,13 @@ A framework for developer to develop a restful php app
 无全局验证
 
 ```php
-
 (new Boostrap)->start();
-
 ```
 
 全局验证
 
 ```php
-
 (new Boostrap)->start(true);
-
 ```
 
 ## 路由
@@ -33,7 +29,6 @@ A framework for developer to develop a restful php app
 
 `./controller/api.class.php`：
 ```php
-
 class api
 {
     /**
@@ -46,7 +41,6 @@ class api
         Boostrap::output($msg);
     }
 }
-
 ```
 
 将会输出`"Hello World"`。
