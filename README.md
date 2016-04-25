@@ -47,7 +47,7 @@ class api
     }
 }
 
-```php
+```
 
 将会输出`"Hello World"`。
 
