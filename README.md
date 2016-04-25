@@ -1,4 +1,4 @@
-![RazordPHP_LOGO](http://blog.ijason.cc/static/razordphp/razordphp_logo.jpg)
+<img src="http://blog.ijason.cc/static/razordphp/razordphp_logo.jpg" alt="RazordPHP_LOGO" width="400px" />
 
 一款使用为开发者开发Restful php应用而生的框架
 
