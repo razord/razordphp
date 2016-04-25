@@ -1,8 +1,8 @@
 <?php
 /**
- * PHP RESTful
+ * Razord PHP
  * @author     Jason
- * @copyright  Copyright (c) 2015 ijason.cc
+ * @copyright  Copyright (c) 2015 razord.ijason.cc
  * @license    http://opensource.org/licenses/MIT   MIT License
  */
 

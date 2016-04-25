@@ -1,4 +1,4 @@
-# php-restful
+# Razord PHP
 
 一款使用为开发者开发Restful php应用而生的框架
 
@@ -21,7 +21,7 @@ A framework for developer to develop a restful php app
 
 ## 路由
 
-本框架采用注释来规定路由
+Razord采用注释来规定路由
 
 举例：
 
@@ -34,7 +34,7 @@ class api
     /**
      * 根目录
      * @url(GET, '/bb')
-     * 框架将会解析以上注释，当访问的pathinfo符合时，执行此函数
+     * Razord将会解析以上注释，当访问的pathinfo符合时，执行此函数
      */
     public function index () {
         $msg = 'Hello World';
