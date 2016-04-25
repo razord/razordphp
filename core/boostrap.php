@@ -8,7 +8,9 @@
 
 class Boostrap
 {
-    private $globalVerify;
+    private $modules = array();
+    private $moduleList = array();
+    private $moduleNameReservedWords = array('boostrap', 'razord', 'init', 'core', 'config', 'exec');
 
     /**
      * 初始化配置
@@ -23,20 +25,8 @@ class Boostrap
         $this->globalVerify = $globalVerify;
     }
 
-    public function start ($globalVerify)
+    public function start ()
     {
-        if ($globalVerify) {
-            if (file_exists(__ROOTDIR__.'/controller/verify.class.php')) {
-                require_once __ROOTDIR__.'/controller/verify.class.php';
-                $verify = new verify;
-                if (!$verify->verify()) {
-                    self::error(403, '您没有权限访问。');
-                }
-            } else {
-                self::error(100, '全局验证类未加载。');
-            }
-        }
-
         $path = self::getPath();
 
         $className = $path['controller'];
@@ -72,18 +62,50 @@ class Boostrap
         exit();
     }
 
+    public function load ($moduleName)
+    {
+        if (!isset($moduleName)) {
+            self::error(101, '模块名称不能为空。');
+        }
+        if (is_array($moduleName)) {
+            foreach ($moduleName as $name) {
+                if (!file_exists(__ROOTDIR__.'/module/' . $name . '.class.php')) {
+                    self::error(102, '未找到相应模块。');
+                }
+                if (in_array(strtolower($name), $this->moduleNameReservedWords)) {
+                    self::error(103, '模块名称不能使用保留字');
+                }
+                array_push($this->moduleList, $name);
+            }
+        } else {
+            if (!file_exists(__ROOTDIR__.'/module/' . $moduleName . '.class.php')) {
+                self::error(102, '未找到相应模块。');
+            }
+            if (in_array(strtolower($moduleName), $this->moduleNameReservedWords)) {
+                self::error(103, '模块名称不能使用保留字');
+            }
+            array_push($this->moduleList, $moduleName);
+        }
+    }
+
     private function exec($matches, $path, $method, $className)
     {
-        if (!strpos($matches[1][0], ':') && $path['method'] == strtoupper($matches[0][0]) && $path['path'] == $matches[1][0]) {
+        if (!strpos($matches[1][0], ':')
+            && $path['method'] == strtoupper($matches[0][0])
+            && $path['path'] == $matches[1][0]) {
+
+            self::loadModule();
+
             $methodName = $method->name;
-            $className::$methodName();
-            return 1;
+            $className::$methodName($this->modules);
+
+            return true;
         } else if (strpos($matches[1][0], ':')) {
             $queryFromComment = self::getQueryFromComment($matches[1][0]);
             $paths = explode('/', $path['path']);
 
             if (count($paths) != count(explode('/', $matches[1][0]))) {
-                return 0;
+                return false;
             }
 
             $query = array();
@@ -91,10 +113,21 @@ class Boostrap
                 $query[$key] = $paths[$queries];
             }
 
+            self::loadModule();
+
             $methodName = $method->name;
-            $className::$methodName($query);
+            $className::$methodName($this->modules, $query);
         } else {
-            return 0;
+            return false;
+        }
+    }
+
+    private function loadModule ()
+    {
+        foreach ($this->moduleList as $module) {
+            require __ROOTDIR__.'/module/' . $module . '.class.php';
+            $this->modules[$module] = new $module;
+            $this->modules[$module]->exec();
         }
     }
 

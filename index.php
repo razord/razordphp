@@ -6,10 +6,16 @@
  * @license	   http://opensource.org/licenses/MIT	MIT License
  */
 
-/** 加载主文件 */
+/* 加载主文件 */
 require('./config.php');
 require('./core/init.php');
 
-/** 初始化框架 */
-(new Boostrap)->start(true);
+/* 实例化应用 */
+$Razord = new Boostrap;
+
+/* 加载模块 */
+$Razord->load('verify');
+
+/* 启动框架 */
+$Razord->start(true);
 ?>

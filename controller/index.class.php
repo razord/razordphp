@@ -15,7 +15,7 @@ class index
      * 根目录
      * @url(GET, '/')
      */
-    public function index () {
+    public function root ($modules) {
         $msg = 'Hello World';
         Boostrap::output($msg);
     }
@@ -24,7 +24,7 @@ class index
      * 二级目录
      * @url(GET, '/heyjason')
      */
-    public function directoryJason () {
+    public function heyJason ($modules) {
         $msg = 'Hey Jason!';
         Boostrap::output($msg);
     }
@@ -33,7 +33,7 @@ class index
      * 二级目录带参数
      * @url(GET, '/heyjason/:keyword')
      */
-    public function directoryJasonHasOneQuery ($query) {
+    public function heyJasonWithKeyword ($modules, $query) {
         Boostrap::output($query);
     }
 
@@ -41,8 +41,17 @@ class index
      * 同个二级目录带多个参数
      * @url(GET, '/heyjason/:keyword1/:keyword2')
      */
-    public function directoryJasonHasQueries ($query) {
+    public function heyJasonWithKeywords ($modules, $query) {
         Boostrap::output($query);
+    }
+
+    /**
+     * 调用模块
+     * @url(GET, '/module')
+     */
+    public function module ($modules) {
+        $msg = $modules['verify']->getMsg();
+        Boostrap::output($msg);
     }
 }
 

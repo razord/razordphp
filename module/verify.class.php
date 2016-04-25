@@ -7,13 +7,18 @@
  */
 
 /**
-* 全局验证类
+* 全局验证模块
 */
 class Verify
 {
-    public function verify ()
+    public function exec ()
     {
         return true;
+    }
+
+    public function getMsg ()
+    {
+    	return 'Hello Verify';
     }
 }
 
