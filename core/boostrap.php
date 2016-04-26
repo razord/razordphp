@@ -18,13 +18,16 @@ class Boostrap
     public function __construct ($globalVerify = false)
     {
         if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-            self::error(600, 'PHP版本过低');
+            self::error(100, 'PHP版本过低');
         }
         set_include_path(get_include_path().PATH_SEPARATOR.'core');
         set_include_path(get_include_path().PATH_SEPARATOR.'controller');
         $this->globalVerify = $globalVerify;
     }
 
+    /**
+     * 程序启动函数
+     */
     public function start ()
     {
         $path = self::getPath();
@@ -55,6 +58,11 @@ class Boostrap
         }
     }
 
+    /**
+     * 输出函数
+     * @param  Any    $content [要输出的内容，可以是任何类型]
+     * @return String          [转换成JSON字符串输出]
+     */
     public function output($content)
     {
         header('Content-Type: application/json');
@@ -62,27 +70,31 @@ class Boostrap
         exit();
     }
 
+    /**
+     * 模块加载函数
+     * @param  [String|Array] $moduleName [要加载的模块名称，可以是模块列表的数组]
+     */
     public function load ($moduleName)
     {
         if (!isset($moduleName)) {
-            self::error(101, '模块名称不能为空。');
+            self::error(102, '模块名称不能为空。');
         }
         if (is_array($moduleName)) {
             foreach ($moduleName as $name) {
                 if (!file_exists(__ROOTDIR__.'/module/' . $name . '.class.php')) {
-                    self::error(102, '未找到相应模块。');
+                    self::error(103, '未找到相应模块。');
                 }
                 if (in_array(strtolower($name), $this->moduleNameReservedWords)) {
-                    self::error(103, '模块名称不能使用保留字');
+                    self::error(104, '模块名称不能使用保留字');
                 }
                 array_push($this->moduleList, $name);
             }
         } else {
             if (!file_exists(__ROOTDIR__.'/module/' . $moduleName . '.class.php')) {
-                self::error(102, '未找到相应模块。');
+                self::error(103, '未找到相应模块。');
             }
             if (in_array(strtolower($moduleName), $this->moduleNameReservedWords)) {
-                self::error(103, '模块名称不能使用保留字');
+                self::error(104, '模块名称不能使用保留字');
             }
             array_push($this->moduleList, $moduleName);
         }
@@ -156,10 +168,6 @@ class Boostrap
         return array_splice($matches, 1);
     }
 
-    /**
-     * getPath ()
-     * @return string
-     */
     private function getPath ()
     {
         if (isset($_SERVER['PATH_INFO'])) {
@@ -188,14 +196,16 @@ class Boostrap
     }
 
     /**
-     * error ()
-     * @param int $errCode
-     * @param str $errMsg
-     * @return json
+     * 内部错误处理函数
+     * @param int    $errCode 错误代码
+     * @param String $errMsg  错误提示信息
      */
     private function error ($errCode = 0, $errMsg = '')
     {
         $outputTemplate = array('errCode' => $errCode, 'errMsg' => $errMsg);
+        if ($errCode >= 100 && $errCode <= 199) {
+            $outputTemplate['Document'] = 'See the document: https://github.com/jas0ncn/razordphp/wiki/%E9%94%99%E8%AF%AF#' . $errCode;
+        }
         self::output($outputTemplate);
     }
 

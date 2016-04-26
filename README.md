@@ -32,4 +32,4 @@ class api
 
 #### 文档
 
-[文档](https://github.com/jas0ncn/razordphp/wiki/%E4%BB%8B%E7%BB%8D)
+[文档](http://doc.razordphp.ijason.cc/)
