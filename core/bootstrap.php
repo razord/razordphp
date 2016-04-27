@@ -6,11 +6,11 @@
  * @license    http://opensource.org/licenses/MIT   MIT License
  */
 
-class Boostrap
+class Bootstrap
 {
     private $modules = array();
     private $moduleList = array();
-    private $moduleNameReservedWords = array('boostrap', 'razord', 'init', 'core', 'config', 'exec');
+    private $moduleNameReservedWords = array('bootstrap', 'razord', 'init', 'core', 'config', 'exec');
 
     /**
      * 初始化配置
@@ -18,7 +18,7 @@ class Boostrap
     public function __construct ($globalVerify = false)
     {
         if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-            self::error(100, 'PHP版本过低');
+            self::error(101, 'PHP版本过低');
         }
         set_include_path(get_include_path().PATH_SEPARATOR.'core');
         set_include_path(get_include_path().PATH_SEPARATOR.'controller');
@@ -63,7 +63,7 @@ class Boostrap
      * @param  Any    $content [要输出的内容，可以是任何类型]
      * @return String          [转换成JSON字符串输出]
      */
-    public function output($content)
+    public function output ($content)
     {
         header('Content-Type: application/json');
         echo json_encode($content);
@@ -100,7 +100,7 @@ class Boostrap
         }
     }
 
-    private function exec($matches, $path, $method, $className)
+    private function exec ($matches, $path, $method, $className)
     {
         if (!strpos($matches[1][0], ':')
             && $path['method'] == strtoupper($matches[0][0])

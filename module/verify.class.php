@@ -9,7 +9,7 @@
 /**
 * 全局验证模块
 */
-class Verify
+class verify
 {
     public function exec ()
     {

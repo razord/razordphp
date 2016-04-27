@@ -11,11 +11,12 @@ require('./config.php');
 require('./core/init.php');
 
 /* 实例化应用 */
-$Razord = new Boostrap;
+$Razord = new Bootstrap;
 
 /* 加载模块 */
-$Razord->load('verify');
+$moduleNames = array('verify'); // 要加载的模块名称的数组
+$Razord->load($moduleNames);
 
 /* 启动框架 */
-$Razord->start(true);
+$Razord->start();
 ?>

@@ -17,7 +17,7 @@ class index
      */
     public function root ($modules) {
         $msg = 'Hello World';
-        Boostrap::output($msg);
+        Bootstrap::output($msg);
     }
 
     /**
@@ -26,7 +26,7 @@ class index
      */
     public function heyJason ($modules) {
         $msg = 'Hey Jason!';
-        Boostrap::output($msg);
+        Bootstrap::output($msg);
     }
 
     /**
@@ -34,7 +34,7 @@ class index
      * @url(GET, '/heyjason/:keyword')
      */
     public function heyJasonWithKeyword ($modules, $query) {
-        Boostrap::output($query);
+        Bootstrap::output($query);
     }
 
     /**
@@ -42,7 +42,7 @@ class index
      * @url(GET, '/heyjason/:keyword1/:keyword2')
      */
     public function heyJasonWithKeywords ($modules, $query) {
-        Boostrap::output($query);
+        Bootstrap::output($query);
     }
 
     /**
@@ -51,7 +51,7 @@ class index
      */
     public function module ($modules) {
         $msg = $modules['verify']->getMsg();
-        Boostrap::output($msg);
+        Bootstrap::output($msg);
     }
 }
 
