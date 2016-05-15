@@ -8,6 +8,7 @@
 
 class Bootstrap
 {
+    public $prefix = '';
     private $modules = array();
     private $moduleList = array();
     private $moduleNameReservedWords = array('bootstrap', 'razord', 'init', 'core', 'config', 'exec');
@@ -15,14 +16,14 @@ class Bootstrap
     /**
      * 初始化配置
      */
-    public function __construct ($globalVerify = false)
+    public function __construct ($prefix = '')
     {
         if (version_compare(PHP_VERSION, '5.3.0', '<')) {
             self::error(101, 'PHP版本过低');
         }
         set_include_path(get_include_path().PATH_SEPARATOR.'core');
         set_include_path(get_include_path().PATH_SEPARATOR.'controller');
-        $this->globalVerify = $globalVerify;
+        $this->prefix = $prefix;
     }
 
     /**
@@ -171,14 +172,16 @@ class Bootstrap
     private function getPath ()
     {
         if (isset($_SERVER['PATH_INFO'])) {
-            if (substr($_SERVER['PATH_INFO'], -1) === '/') {
-                $pathInfo = substr($_SERVER['PATH_INFO'], 1, -1);
+            $path = str_replace('/' . $this->prefix, '', $_SERVER['PATH_INFO']);
+
+            if (substr($path, -1) === '/') {
+                $pathInfo = substr($path, 1, -1);
             } else { 
-                $pathInfo = substr($_SERVER['PATH_INFO'], 1);
+                $pathInfo = substr($path, 1);
             }
 
             $pathInfo = explode('/', $pathInfo);
-            $controller = $pathInfo[0];
+            $controller = ($pathInfo[0]) ? $pathInfo[0] : 'index';
             $pathInfo = array_splice($pathInfo, 1);
 
             if (count($pathInfo) === 0) {
@@ -188,10 +191,14 @@ class Bootstrap
             }
 
             $router = array('controller' => $controller, 'path' => $path);
+
         } else {
+
             $router = array('controller' => 'index', 'path' => '/');
+
         }
         $router['method'] = $_SERVER['REQUEST_METHOD'];
+
         return $router;
     }
 
