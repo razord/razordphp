@@ -11,7 +11,7 @@ require('./config.php');
 require('./core/init.php');
 
 /* 实例化应用 */
-$Razord = new Bootstrap('prefix');
+$Razord = new Bootstrap('api');
 
 /* 加载模块 */
 $moduleNames = array('verify'); // 要加载的模块名称的数组
