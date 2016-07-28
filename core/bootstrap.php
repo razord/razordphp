@@ -139,7 +139,7 @@ class Bootstrap
     {
         foreach ($this->moduleList as $module) {
             require __ROOTDIR__.'/module/' . $module . '.class.php';
-            $reflectionModule = new ReflectionClass($className);
+            $reflectionModule = new ReflectionClass($module);
             $this->modules[$module] = new $module;
             if ($reflectionModule->hasMethod('exec')) {
                 $this->modules[$module]->exec();
